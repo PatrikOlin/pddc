@@ -76,9 +76,6 @@ func main() {
 			fmt.Println(err)
 		}
 
-		//TODO ta bort fejkip
-		prevIP = "84.216.179.170"
-
 		if ip != prevIP {
 			tempRecords := fetchRecords()
 			records := filterRecords(ip, tempRecords)
