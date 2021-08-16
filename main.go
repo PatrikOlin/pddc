@@ -49,6 +49,7 @@ var secrets Secrets
 var BASE_PATH = "https://porkbun.com/api/json/v3"
 var filepath = os.ExpandEnv("$HOME") + "/.pddc"
 var domain string
+var currentIP string
 
 func init() {
 	loadSecrets()
@@ -116,7 +117,7 @@ func getIP() (string, error) {
 	if resp.StatusCode == http.StatusOK {
 		var jsonResp IPResp
 		json.NewDecoder(resp.Body).Decode(&jsonResp)
-		updateIP(jsonResp.IP)
+		currentIP = jsonResp.IP
 		return jsonResp.IP, nil
 	} else {
 		return "", errors.New(fmt.Sprintf("API request returned status: %d", resp.StatusCode))
@@ -127,7 +128,7 @@ func updateRecords(records []Record) {
 	for _, rec := range records {
 		updateRecord(rec)
 	}
-
+	updateIP(currentIP)
 }
 
 func createEditRecordReq(record Record) EditRecordReq {
