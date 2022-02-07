@@ -56,11 +56,13 @@ func init() {
 }
 
 func main() {
-	domain = os.Args[1]
-
-	if len(os.Args) < 1 || domain == "" {
+	if len(os.Args) < 2 {
 		log.Fatalln("Unable to parse domain argument")
-	} else if domain == "ping" {
+	}
+
+	domain := os.Args[1]
+
+	if domain == "ping" {
 		ip, err := getIP()
 		if err != nil {
 			log.Fatalln("ping failed: ", err)
